@@ -108,7 +108,6 @@ export const getTeams = async function() {
             if (teams[i].market == "North Carolina State") {
                 market = "NC State";
             }
-           // console.log(teams[i].subdivision);
             let subDivision = "";
 
             if (teams[i].subdivision == "ACC-ATLANTIC") {
@@ -275,6 +274,57 @@ export const addByes = async function() {
 //getTeams();
 //getSchedule();
 //addByes();
+
+
+// these 2 functions below is what Chris help us with
+export const putUser = async function() {
+    await axios({
+        method: 'post',
+        url: 'http://localhost:3000/account/login',
+        data: {
+            name: "testrun",
+            pass: "testrun",
+        }
+    }).then(data => {
+        let d= data.data;
+        let token = "Bearer " + d.jwt;
+
+        axios.post('http://localhost:3000/user/cats',
+        {data: {name: "hello"}}
+        , {headers: {
+            Authorization: token
+        }}).catch(error => {
+            console.log(error);
+        });
+    });
+};
+
+export const putUser2 = async function() {
+    await axios({
+        method: 'post',
+        url: 'http://localhost:3000/account/login',
+        data: {
+            name: "testrun",
+            pass: "testrun",
+        }
+    }).then(data => {
+        let d= data.data;
+        let user = d.name;
+        let token = "Bearer " + d.jwt;
+        console.log(d);
+        // makeUserOwner(token, false);
+        // makeUserName(token, "Davidcubrilla");
+        // makeUserTeam(token);
+        // makeUserLeague(token);
+
+        //getUser(token);
+        startUsersData(token, user);
+    });
+};
+
+
+
+
 
 
 
