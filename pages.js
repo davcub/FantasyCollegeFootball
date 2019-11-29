@@ -1,6 +1,35 @@
  
 import {renderHome} from "./renderHome.js";
 import {renderLeague} from "./renderLeague.js";
+import {renderTeam} from "./renderTeam.js";
+import {renderMatchup} from "./renderMatchup.js";
+import {renderProfile} from "./renderProfile.js";
+import { makeUser } from "./makeUser.js";
+
+export const makeCookie = function(cName,cValue) {
+    document.cookie = cName + "=" + cValue;
+};
+
+export const getCookie = function(cName) {
+    let name = cName +"=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+};
+
+export const deleteCookie = function(cName) {
+    let expires = "expires = Thu, 01 Jan 1970 00:00:00 UTC";
+    document.cookie = cName + "=" + ";" + expires;
+};
 
 export const makeDiv = function(i,c) {
     let div = $("<div></div>").attr({
@@ -143,7 +172,8 @@ export const handleLoginButton = async function(event) {
                 pass: password,
             }
         }).then(data => {
-            $(event.target).closest("#navBar").replaceWith(makeNavUserBar());
+            makeCookie(data.name,data.jwt);
+            $(event.target).closest("#navBar").replaceWith(makeNavUserBar(data.name));
         }).catch(data => {
             let error = makeDiv().append("Username and/or password is incorrect");
             $(".loginF").append(error);
@@ -205,19 +235,7 @@ export const handleSignButton = async function(event) {
         //then have navBar change to logined view
         let user = $("#user")[0].value;
         let password = $("#pass")[0].value;
-        await $.ajax({
-            method: 'POST',
-            url: 'http://localhost:3000/account/create',
-            data: {
-                name: user,
-                pass: password,
-            }
-        }).then(data => {
-            console.log(data);
-        }).catch(data => {
-            let error = makeDiv("Username already exist");
-            $(".signupF").append(error);
-        });
+        makeUser(user, password, event);
     };
 };
 
@@ -228,7 +246,7 @@ export const handleCancelButton = function(event) {
 };
 
 //this is when user is active
-export const makeNavUserBar = function(event) {
+export const makeNavUserBar = function(user) {
     let navBar = makeDiv("navBar").css({
         "height": "100%",
         "position": "fixed",
@@ -242,25 +260,25 @@ export const makeNavUserBar = function(event) {
 
     let homeButton = makeButton("","navButtons button", "home").append("HOME").css({
         "margin": "2%"
-    });
-    let lButton = makeButton("","navButtons button", "league").append("LEAGUE").css({
+    }).on("click", handleUserNavButton);
+    let lButton = makeButton(user,"navButtons button", "league").append("LEAGUE").css({
         "margin": "2%"
     }).on("click", handleUserNavButton);
-    let tButton = makeButton("","navButtons button", "team").append("TEAMS").css({
+    let tButton = makeButton(user,"navButtons button", "team").append("TEAMS").css({
         "margin": "2%"
-    });
-    let mButton = makeButton("","navButtons button", "matchup").append("MATCHUPS").css({
+    }).on("click", handleUserNavButton);
+    let mButton = makeButton(user,"navButtons button", "matchup").append("MATCHUPS").css({
         "margin": "2%"
-    });
-    let playersButton = makeButton("","navButtons button", "players").append("PLAYERS").css({
+    }).on("click", handleUserNavButton);
+    let playersButton = makeButton(user,"navButtons button", "players").append("PLAYERS").css({
         "margin": "2%"
-    });
-    let profileButton = makeButton("","navButtons button", "profile").append("PROFILE").css({
+    }).on("click", handleUserNavButton);
+    let profileButton = makeButton(user,"navButtons button", "profile").append("PROFILE").css({
         "margin": "2%"
-    });
-    let signoutButton = makeButton("","navButtons button", "signout").append("SIGN OUT").css({
+    }).on("click", handleUserNavButton);
+    let signoutButton = makeButton(user,"navButtons button", "signout").append("SIGN OUT").css({
         "margin": "2%"
-    });
+    }).on("click", handleUserNavButton);
 
     let buttons = makeDiv();
     buttons.append(homeButton, lButton, tButton, mButton, playersButton, profileButton, signoutButton);
@@ -272,28 +290,24 @@ export const makeNavUserBar = function(event) {
 
 export const handleUserNavButton = function(event) {
     event.preventDefault;
-    let id = event.target.value;
-    if (id == "home") {
+    let value = event.target.value;
+    if (value == "home") {
+        $("#content").replaceWith(renderHome());
+    } else if (value == "league") {
+        $("#content").replaceWith(renderLeague(event.target.id));
+    } else if (value == "team") {
+        $("#content").replaceWith(renderTeam(event.target.id));
+    } else if (value == "matchup") {
+        $("#content").replaceWith(renderMatchup(event.target.id));
+    } else if (value == "players") {
 
-    } else if (id == "home") {
-
-    } else if (id == "league") {
-        $("#root").append(renderLeague());
-    } else if (id == "team") {
-
-    } else if (id == "matchup") {
-
-    } else if (id == "players") {
-
-    } else if (id == "profies") {
-
-    } else if (id == "signout") {
-
+    } else if (value == "profile") {
+        $("#content").replaceWith(renderProfile(event.target.id));
+    } else if (value == "signout") {
+        deleteCookie(event.target.id);
+        $("#content").replaceWith(renderHome());
+        $("#navBar").replaceWith(makeSideNavBar());
     };
 };
 
-// import {renderLeague} from "./renderLeague";
-// import {renderTeam} from "./renderTeam";
-// import {renderMatchup} from "./renderMatchup";
-// import {renderPlayers} from "./renderPlayers";
 
