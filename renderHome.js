@@ -353,7 +353,7 @@ export const handleWeekChange = function(event) {
 };
 
 export const renderHome = function() {
-    let home = makeDiv().css({
+    let home = makeDiv("content").css({
         "color": "black",
         "width": "85%"
     });
