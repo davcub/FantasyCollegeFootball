@@ -1,6 +1,7 @@
 import {makeDiv} from "./pages.js";
 import {makeButton} from "./pages.js";
 
+
 export const makeCoastal = function() {
     
     let panel = makeDiv("coastal").css({
@@ -47,7 +48,7 @@ export const makeCoastal = function() {
         method: "GET",
         url: "http://localhost:3000/public/teams"
     }).then(data => {
-        let teams = makeTeams("COASTAL",data.result);
+        let teams = makeTeams("COASTAL", data.result);
         for (let i = 0; i < teams.length; i++) {
             panel.append(makeTeamResult(teams[i], i));
         };
@@ -243,13 +244,12 @@ export const makeTeamCard = function(team, week) {
         src: team.pic
     });
 
-    let teamP = $("<figure></figure>").append(image).attr({
+    let teamP = $("<div></div>").append(image).attr({
         class: "image"
     }).css({
-        "width": "30%",
-        "border-radius": "1em",
-        "border-color": "black",
-        "border-style": "solid"
+        "width": "75px",
+        "height": "75px",
+        "display": "flex",
     });
     let teamPic = makeDiv().append(teamP);
     
@@ -327,11 +327,11 @@ export const makeTeamCard = function(team, week) {
 };
 
 export const weekForm = function(week) {
-    let panel = makeDiv("","select is-rounded weekForm").attr({
+    let panel = makeDiv("","select is-rounded weekFormHome").attr({
         id : "selectWeek"
     }).css({
         "width": "14%",
-        "margin": "0 45%"
+        "margin": "0 45%",
     });
     let select = $('<select></select>').change(handleWeekChange);
     for (let i = 1; i < 15; i++) {
@@ -355,7 +355,6 @@ export const handleWeekChange = function(event) {
 export const renderHome = function() {
     let home = makeDiv("content").css({
         "color": "black",
-        "width": "85%"
     });
 
     let buttonSection = makeDiv().append(weekForm(1));
@@ -373,10 +372,10 @@ export const renderHome = function() {
     });
     let div2 = makeTeamsSection(1).prepend(buttonSection).css({
         "display": "inline-block",
-        "margin": "0 0 0 30%",
+        "margin": "0 0 0 42%",
         "float": "right",
-        "width": "70%",
-        "background-color": "#ffffff"
+        "width": "68%",
+        "background-color": "white"
     }).attr({
         id: "teamsSection"
     });

@@ -1,8 +1,11 @@
 
-import {makeNavUserBar} from "./pages.js";
+//import axios from "axios";
+import {makeNavUserBar, getCookie} from "./pages.js";
 import {makeCookie} from "./pages.js";
 
-export const makeUser = async function(user, password, event) {
+import {renderProfile} from "./renderProfile.js";
+
+export const makeUser = async function(user, password) {
     await axios({
         method: 'post',
         url: 'http://localhost:3000/account/create',
@@ -31,30 +34,29 @@ export const makeUser = async function(user, password, event) {
                 data: {
                     data:{
                         username: user,
-                        teamName: "",
-                        league: "",
-                        pic: "",
+                        leagueName: "",
                         inLeague: false,
-                        schedule: {},
-                        team: {
-                            //these position will be filled with object once the user has joined or make a league
-                            QB: "",
-                            RB: "",
-                            WR: "",
-                            TE: "",
+                        hasTeam: false,
+                        teamLogo: "fas fa-user",
+                        profile: {
+                            firstName: "",
+                            lastName: "",
+                            teamName: "",
+                            favoriteTeam: "North Carolina",
                         }
                     }
                 }
             });
-            $(event.target).closest("#navBar").replaceWith(makeNavUserBar(d.name));
+            $("#content").replaceWith(renderProfile(d.name));
         });
     }); 
 };
 
+//joining or making a league
 export const addUsertoLeague = async function(token, leagueName) {
     await new axios({
         method: 'post',
-        url: "http://localhost:3000/user/stuff/league/",
+        url: "http://localhost:3000/user/stuff/leagueName/" + leagueName,
         headers: {
             Authorization: token
         },
@@ -74,6 +76,76 @@ export const addUsertoLeague = async function(token, leagueName) {
     });
 };
 
+
+
+
+
+//////////
+export const addStuff = async function(token, leagueName) {
+    await new axios({
+        method: 'post',
+        url: "http://localhost:3000/user/stuff/leagueName/" + leagueName,
+        headers: {
+            Authorization: token
+        },
+        data: {
+            data: leagueName
+        }
+    });
+    await new axios({
+        method: 'post',
+        url: "http://localhost:3000/user/stuff/inLeague/",
+        headers: {
+            Authorization: token
+        },
+        data: {
+            data: true
+        }
+    });
+};
+
+//leaving a league
+//owner can't leave a league only delete them
+export const removeUsertoLeague = async function(token, leagueName) {
+    await axios({
+        method: "get",
+        url: "http://localhost:3000/user/stuff/leagues",
+        headers: {
+            Authorization: token
+        }
+    }).then(data => {
+        let d = data.data.result;
+        let newLeagues = d - 1;
+        removeStuff(token, leagueName, newLeagues);
+    });
+};
+
+export const removeStuff = async function(token, leagueName, leagues) {
+    await new axios({
+        method: 'delete',
+        url: "http://localhost:3000/user/stuff/leaguesName/" + leagueName,
+        headers: {
+            Authorization: token
+        },
+        data: {
+            data: {}
+        }
+    });
+    await new axios({
+        method: 'post',
+        url: "http://localhost:3000/user/stuff/leagues/",
+        headers: {
+            Authorization: token
+        },
+        data: {
+            data: leagues
+        }
+    });
+};
+
+
+
+//functions below to make a random team
 export const getRandomPlayers = async function(user, token) {
     await axios({
         method: "get",
@@ -84,7 +156,7 @@ export const getRandomPlayers = async function(user, token) {
     }).then(data => {
         let d = data.data.result;
         let league = d.league;
-        let position = ['tightends', "runningbacks", "quarterbacks", "widerecievers"];
+        let position = ['TEs', "RBs", "QBs", "WRs"];
         for (let i = 0; i < position.length; i++) {
             makeRandom(league, position[i], token, user);
         }    

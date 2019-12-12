@@ -153,7 +153,7 @@ export const getSchedule = async function() {
 };
 
 export const getStats = async function() {
-    for (let a = 1; a < 13; a++) {
+    for (let a = 1; a < 15; a++) {
         await axios({
             method: "get",
             url: "https://api.collegefootballdata.com/games/players?year=2019&week=" + a + "&seasonType=regular&conference=ACC",
@@ -215,6 +215,11 @@ export const getStats = async function() {
                         updateStat(runyd, "runyd", tempStats);
                         updateStat(ptd, "ptd", tempStats);
                         updateStat(pyd, "pyd", tempStats);
+
+                        for (let key in tempStats) {
+                            tempStats[key]["points"] = Math.round(makePoints(tempStats[key])*100) / 100.0;
+                        };
+
                         for (let key in tempStats) {
                             pubRoot.post("/players/" + key + "/statsPerWeek/" + a, {
                                 data: tempStats[key],
@@ -225,6 +230,18 @@ export const getStats = async function() {
             };
         });
     };    
+};
+
+export const makePoints = function(stats) {
+    let total = 0;
+    total += (stats["pyd"]*0.04);
+    total += (stats["ptd"]*4);
+    total += (stats["runyd"]*0.1);
+    total += (stats["runtd"]*6);
+    total += (stats["ryd"]*0.1);
+    total += (stats["rtd"]*6);
+    total += (stats["rec"]*1);
+    return total;
 };
 
 export const updateStat = function(s, type, tempStats) {
@@ -270,7 +287,7 @@ export const addByes = async function() {
 //pubRoot.delete(`/players`);
 //pubRoot.delete(`/teams`);
 //getPlayers();
-//getStats();
+getStats();
 //getTeams();
 //getSchedule();
 //addByes();

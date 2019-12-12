@@ -1,0 +1,346 @@
+
+#content {
+    display: inline-block;
+    width: 100%;
+    padding-right: 15%;
+    background-color:white;
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+}
+
+#profileForm {
+    display: inline-block;
+    width: 60%;
+    margin: 5% 20%;
+    background-color: #e8e8e8;
+    border-radius: 0.75em;
+}
+
+.profileFormButton {
+    display: inline-block;
+    width: 20%;
+    margin: 0% 40%;
+    border-radius: 0.75em;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    background-color: white;
+}
+
+#profileFormTitle {
+    display: inline-block;
+    width: 100%;
+    margin: 1% 0%;
+    font-size: 350%;
+    text-align: center;
+}
+
+#logosForm {
+    display: inline-block;
+    width: 80%; 
+    margin: 1% 10%;
+}
+
+#profilePic {
+    display: inline-block;
+    width: 30%;
+    margin: 2% 35%;
+    text-align: center;
+    border-style: solid;
+    border-radius: 200%;
+    background-color: white;
+}
+
+#pic {
+    display: inline-block;
+    padding: 20% 0%;
+}
+
+#logosFormButtons {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-template-rows: 7.75em 7.75em;
+    grid-column-gap: 2em;
+    grid-row-gap: 2em;
+    width: 80%; 
+    margin: 1% 10%;
+}
+
+.logoFormButton {
+    display: inline-grid;
+    border-style: solid;
+    border-color: black;
+    border-radius: 0.75em;
+}
+
+.profileFormField {
+    display: inline-block;
+    width: 50%;
+    margin: 0.5% 25%;
+}
+
+#favTeamDiv {
+    display: inline-block;
+    width: 20%;
+    margin: 0.5% 40%;
+    text-align: center;
+};
+
+#timerDiv {
+    text-align: right;
+}
+
+.draftButton {
+    background-color: green;
+    width: 50%;
+    margin: 0% 35%;
+    color: white;
+    margin-right: 12px;
+}
+
+#draftBoard {
+    float: left;
+    width: 50%;
+}
+
+#draftBoardHeader {
+    padding-top: 12px;
+    text-align: center;
+    font-size: 175%;
+}
+
+#draftQueue {
+    float: left;
+    width: 25%;
+}
+
+#draftQueueHeader {
+    padding-top: 12px;
+    text-align: center;
+    font-size: 175%;
+}
+
+#draftTeamHeader {
+    padding-top: 120px;
+    text-align: center;
+    font-size: 175%;
+}
+
+.draftTeam {
+    margin: 2%;
+}
+
+#currentTeam {
+    float: left;
+    width: 20%;
+    font-size: 125%;
+    margin: 3% 2.5%;
+}
+
+.draftQueueCard {
+    width: 50%;
+    margin: 2% 25%;
+    border-style: solid;
+    padding-bottom: 36px;
+    padding-top: 12px;
+    padding-left: 6px;
+    background-color: #e8e8e8;
+}
+
+.pickNumber {
+    float: left;
+    width: 50%;
+}
+
+.pickUser {
+    float: left;
+    width: 50%;
+}
+
+.draftPlayerCardGrid {
+    display: grid;
+    grid-template-columns: 60% 20% 20%;
+    border-style: solid;
+    border-radius: 0.75em;
+    margin: 2% 0%;
+    background-color: white;
+}
+
+.draftCardC1 {
+    display: inline-grid;
+    font-size: 150%;
+    padding-left: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+
+}
+
+.draftCardPoint {
+    display: inline-grid;
+    text-align: center;
+    padding: 30px;
+    font-size: 150%;
+}
+
+.draftCardButton {
+    display: inline-grid;
+    text-align: right;
+    margin-left: 10%;
+    margin-top: 22px;
+    height: 50%;
+}
+
+.weekForm {
+    width: 40%;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    margin: 0% 30%;
+}
+
+.playerSearchCard {
+    background-color: #e8e8e8;
+    width: 60%;
+    margin: 0% 20%;
+    display: grid;
+    grid-template-columns: 10% 50% 20% 20%;
+    border-style: solid;
+    border-color: #e8e8e8;
+    border-radius: 12px;
+    font-size: 150%;
+    margin-top: 20px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 12px;
+}
+
+.playerSearchCardG {
+    display: inline-grid;
+}
+
+.matchupTeamCard {
+    width: 40%;
+    float: left;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.matchupPage {
+    width: 80%;
+    margin: 0% 10%;
+}
+
+.matchupPlayerCard {
+    padding-bottom: 40px;
+    padding-top: 10px;
+    padding-left: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: lightblue;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    background-color: white;
+}
+
+.matchupPlayerCardName {
+    width: 60%;
+    float: left;
+    text-align: left;
+
+}
+
+.matchupPlayerCardPoints {
+    width: 40%;
+    float: right;
+    text-align: right;
+    padding-right: 20px;
+
+}
+
+#table {
+    width: 80%;
+    margin: 2% 10%;
+
+}
+.leagueTeamCard {
+    border-radius: 5px;
+    text-align: center;
+}
+
+.leagueHeaders {
+    display: inline-block;
+    width: 20%;
+    font-size: 175%;
+    text-align: center;
+    margin: 1% 0%;
+}
+
+.odd {
+    background-color: #e8e8e8;
+}
+
+.even {
+    background-color: white;
+}
+
+.teamPlayerCard {
+    width: 60%;
+    margin: 2% 20%;
+    display: grid;
+    grid-template-columns: 20% 40% 40%;
+    background-color: #e8e8e8;
+}
+
+.teamPlayerCardG {
+    display: inline-grid;
+    font-size: 150%;
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+#teamHeader {
+    font-size: 250%;
+    text-align: center;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+.summary {
+    font-size: 150%;
+    text-align: center;
+}
+
+.matchupHeader {
+    font-size: 125%;
+    text-align: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+#matchupTab {
+    width: 10%;
+    margin-left: 45%;
+    margin-right: 45%;
+}
+
+#week {
+    width: 10%;
+    margin-left: 46.5%;
+    margin-right: 48.5%;
+}
+
+#playersButton {
+    padding-top: 1em;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    grid-column-gap: 1em;
+
+}
+.playersButtonG {
+    padding: 6px;
+    display: inline-grid;
+    border-radius: .75em;
+}

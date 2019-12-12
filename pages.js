@@ -5,6 +5,7 @@ import {renderTeam} from "./renderTeam.js";
 import {renderMatchup} from "./renderMatchup.js";
 import {renderProfile} from "./renderProfile.js";
 import { makeUser } from "./makeUser.js";
+import {renderPlayers} from "./renderPlayers.js";
 
 export const makeCookie = function(cName,cValue) {
     document.cookie = cName + "=" + cValue;
@@ -31,12 +32,11 @@ export const deleteCookie = function(cName) {
     document.cookie = cName + "=" + ";" + expires;
 };
 
-export const makeDiv = function(i,c) {
+export const makeDiv = function(i,c,v) {
     let div = $("<div></div>").attr({
         id: i,
-        class: c
-    }).css({
-        "width": "100%"
+        class: c,
+        value: v
     });
     return div;
 };
@@ -46,8 +46,6 @@ export const makeButton = function(i, c, v) {
         id: i,
         class: c,
         value: v
-    }).css({
-        "width": "100%"
     });
     return button;
 };
@@ -83,12 +81,12 @@ export const makeSideNavBar = function() {
     logo.append(line1,line2,line3);
 
     let buttons = makeDiv("navButtons");
-    let loginButton = makeButton("","button").append("LOGIN").attr({
+    let loginButton = makeButton("","button").append("LOG IN").attr({
         value: "loginRenderForm"
     }).css({
-        "width": "50%",
+        "width": "70%",
         "border-radius": "1em",
-        "margin": "2% 25%"
+        "margin": "2% 15%"
     }).on("click", handleLoginButton);
     let signButton = makeButton("","button").attr({
         value: "signuprenderForm"
@@ -142,16 +140,16 @@ export const handleLoginButton = async function(event) {
 
         let buttons = makeDiv();
         let login  = makeButton("", "button").css({
-            "width": "50%",
+            "width": "70%",
             "border-radius": "1em",
-            "margin": "2% 25%"
+            "margin": "2% 15%"
         }).attr({
             value: "login"
-        }).append("LOGIN").on("click", handleLoginButton);
+        }).append("LOG IN").on("click", handleLoginButton);
         let cancel = makeButton("", "button").css({
-            "width": "60%",
+            "width": "70%",
             "border-radius": "1em",
-            "margin": "2% 20%"
+            "margin": "2% 15%"
         }).append("CANCEL").on("click", handleCancelButton);
         buttons.append(login,cancel);
         
@@ -175,7 +173,9 @@ export const handleLoginButton = async function(event) {
             makeCookie(data.name,data.jwt);
             $(event.target).closest("#navBar").replaceWith(makeNavUserBar(data.name));
         }).catch(data => {
-            let error = makeDiv().append("Username and/or password is incorrect");
+            let error = makeDiv().append("Username and/or password is incorrect").css({
+                "color": "white",
+            });
             $(".loginF").append(error);
         });
     };
@@ -220,9 +220,9 @@ export const handleSignButton = async function(event) {
             value: "signup"
         }).append("SIGN UP").on("click", handleSignButton);
         let cancel = makeButton("", "button").css({
-            "width": "60%",
+            "width": "70%",
             "border-radius": "1em",
-            "margin": "2% 20%"
+            "margin": "2% 15%"
         }).append("CANCEL").on("click", handleCancelButton);
         buttons.append(signup,cancel);
         
@@ -233,9 +233,15 @@ export const handleSignButton = async function(event) {
         //make ajax call
         //do something with data to access userstuff
         //then have navBar change to logined view
+        //have page render profile form
         let user = $("#user")[0].value;
         let password = $("#pass")[0].value;
-        makeUser(user, password, event);
+        makeUser(user, password);
+
+        //have navBar show instruction after signing up
+        //$("#navBar").replaceWith(makeNavUserBar(user));
+        $("#content").replaceWith(renderProfile(user));
+        //$("#navBar").empty();
     };
 };
 
@@ -255,32 +261,49 @@ export const makeNavUserBar = function(user) {
         "right": "0",
         "overflow-x": "hidden",
         "width": "15%",
-        "font-family": "fantasy"
+        "font-family": "fantasy",
+        "background-color": "#05386b"
     });
 
     let homeButton = makeButton("","navButtons button", "home").append("HOME").css({
-        "margin": "2%"
+        "width": "90%",
+        "border-radius": "0.75em",
+        "margin": "2% 5%"
     }).on("click", handleUserNavButton);
     let lButton = makeButton(user,"navButtons button", "league").append("LEAGUE").css({
-        "margin": "2%"
+        "width": "90%",
+        "border-radius": "0.75em",
+        "margin": "2% 5%"
     }).on("click", handleUserNavButton);
-    let tButton = makeButton(user,"navButtons button", "team").append("TEAMS").css({
-        "margin": "2%"
+    let tButton = makeButton(user,"navButtons button", "team").append("TEAM").css({
+        "width": "90%",
+        "border-radius": "0.75em",
+        "margin": "2% 5%"
     }).on("click", handleUserNavButton);
-    let mButton = makeButton(user,"navButtons button", "matchup").append("MATCHUPS").css({
-        "margin": "2%"
+    let mButton = makeButton(user,"navButtons button", "matchup").append("MATCHUP").css({
+        "width": "90%",
+        "border-radius": "0.75em",
+        "margin": "2% 5%"
     }).on("click", handleUserNavButton);
     let playersButton = makeButton(user,"navButtons button", "players").append("PLAYERS").css({
-        "margin": "2%"
+        "width": "90%",
+        "border-radius": "0.75em",
+        "margin": "2% 5%"
     }).on("click", handleUserNavButton);
     let profileButton = makeButton(user,"navButtons button", "profile").append("PROFILE").css({
-        "margin": "2%"
+        "width": "90%",
+        "border-radius": "0.75em",
+        "margin": "2% 5%"
     }).on("click", handleUserNavButton);
     let signoutButton = makeButton(user,"navButtons button", "signout").append("SIGN OUT").css({
-        "margin": "2%"
+        "width": "90%",
+        "border-radius": "0.75em",
+        "margin": "2% 5%"
     }).on("click", handleUserNavButton);
 
-    let buttons = makeDiv();
+    let buttons = makeDiv().css({
+        "margin": "30% 0%"
+    });
     buttons.append(homeButton, lButton, tButton, mButton, playersButton, profileButton, signoutButton);
 
     navBar.append(buttons);
@@ -300,7 +323,7 @@ export const handleUserNavButton = function(event) {
     } else if (value == "matchup") {
         $("#content").replaceWith(renderMatchup(event.target.id));
     } else if (value == "players") {
-
+        $("#content").replaceWith(renderPlayers(event.target.id));
     } else if (value == "profile") {
         $("#content").replaceWith(renderProfile(event.target.id));
     } else if (value == "signout") {
